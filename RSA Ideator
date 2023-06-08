@@ -36,7 +36,7 @@ var EMAIL = 'brandon@omgcommerce.com';
 // Set to true if you want to recieve the report on Email.
 var SEND_EMAIL = false;
 
-var OPEN_AI_API_KEY = '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'; // get your own API key at https://platform.openai.com/account/api-keys
+var OPEN_AI_API_KEY = ''; // get your own API key at https://platform.openai.com/account/api-keys
 
 var GPT_MODEL = 'gpt-3.5-turbo';
 
