@@ -1,0 +1,51 @@
+// Create a sheet with data from last 30 days and previous period, output to separate tabs.
+function mainFirstPeriod() {
+  
+  let ss = SpreadsheetApp.openByUrl('Your_Spreadsheet_URL_Here');
+  
+  let today = new Date();
+  let endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+  let startDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() - 30);
+  
+  startDate = Utilities.formatDate(startDate, 'GMT', 'yyyy-MM-dd');
+  endDate = Utilities.formatDate(endDate, 'GMT', 'yyyy-MM-dd');
+
+  let query = AdsApp.report(
+    `SELECT campaign.name, metrics.cost_micros, metrics.cost_per_conversion, metrics.conversions, 
+      metrics.conversions_value, metrics.view_through_conversions, metrics.value_per_conversion, 
+      metrics.search_impression_share 
+      FROM campaign 
+      WHERE segments.date BETWEEN '${startDate}' AND '${endDate}'`);
+
+  query.exportToSheet(ss.getSheetByName('Sheet1'));
+
+  Logger.log("Finished exporting to Sheet1");
+}
+
+function mainSecondPeriod() {
+  
+  let ss = SpreadsheetApp.openByUrl('Your_Spreadsheet_URL_Here');
+  
+  let today = new Date();
+  let endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 31);
+  let startDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() - 30);
+  
+  startDate = Utilities.formatDate(startDate, 'GMT', 'yyyy-MM-dd');
+  endDate = Utilities.formatDate(endDate, 'GMT', 'yyyy-MM-dd');
+
+  let query = AdsApp.report(
+    `SELECT campaign.name, metrics.cost_micros, metrics.cost_per_conversion, metrics.conversions, 
+      metrics.conversions_value, metrics.view_through_conversions, metrics.value_per_conversion, 
+      metrics.search_impression_share 
+      FROM campaign 
+      WHERE segments.date BETWEEN '${startDate}' AND '${endDate}'`);
+
+  query.exportToSheet(ss.getSheetByName('Sheet2'));
+
+  Logger.log("Finished exporting to Sheet2");
+}
+
+function main() {
+  mainFirstPeriod();
+  mainSecondPeriod();
+}
